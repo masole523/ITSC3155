@@ -9,6 +9,20 @@ class Invoice:
         self.items['unit_price'] = price
         self.items['discount'] = discount
 
+    def totalProducts(self, products):
+        total_items = 0
+        for k, v in products.items():
+            total_items += int(v['qnt'])
+        return total_items
+
+    def totalTax(self, products):
+        total_tax_price = 0
+        tax = 7
+        for k, v in products.items():
+            total_tax_price += (int(v['qnt']) * float(v['unit_price'])) * tax / 100
+        total_tax_price = round(total_tax_price, 2)
+        return total_tax_price
+
     def totalImpurePrice(self, products):
         total_impure_price = 0
         for k, v in products.items():
