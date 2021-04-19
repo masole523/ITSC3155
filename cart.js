@@ -90,3 +90,54 @@ function checkOut() {
     });
 
 }
+
+function deleteAll() {
+    var cartItems = [];
+
+    // first get all the cart items
+    $.ajax({
+        url: Url+'GetCart',
+        type: 'get',
+        dataType: 'json',
+        data: {'email': email},
+        contentType: 'json',
+
+        success: function (data) {
+            cartItems = data.data.List;
+
+            console.log(cartItems); 
+
+            // after getting all the cart items 
+            //loop through each item while calling the delete api and deleting each item
+            $.each( cartItems, function( key, value ) {
+                $.ajax({
+                    url: Url+'Cart/'+`${value.id}`,
+                    type: 'delete',
+                    contentType: 'json',
+            
+                    success: function (data) {
+                       
+                    },
+                    error: function (data) {
+                        alert(value.title + " not able to removed from the shopping cart");
+                        console.error(err);
+                    }
+                });
+
+                getCart(email);
+
+          });
+
+          alert("Items are removed from the shopping cart");
+
+        },
+        error: function (data) {
+            alert("Error while checking out.");
+            console.error(err);
+        }
+    });
+
+    
+
+}
+
